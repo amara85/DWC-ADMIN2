@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="container" >
+	<div th:fragment="header" id="navbar">
+
+		<!-- Fixed navbar -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+						aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="#" th:href="@{/admin/home}">Home</a></li>
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#">Utilisateurs <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#" th:href="@{/admin/utilisateurs}">Liste des utilisateurs</a></li>
+								<li><a href="#" th:href="@{/admin/utilisateur/new}">Ajouter un utilisateur</a></li>
+							</ul></li>
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#">Appareils <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#" th:href="@{/admin/appareils}">Liste des appareils</a></li>
+								<li><a href="#" th:href="@{/admin/appareil/new}">Ajouter un appareil</a></li>
+							</ul></li>
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#">Avions <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#" th:href="@{/admin/avions}">Liste des avions</a></li>
+								<li><a href="#" th:href="@{/admin/avion/new}">Ajouter un avion</a></li>
+							</ul></li>
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#">Couts moyens <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#" th:href="@{/admin/coutsmoyens}">Liste des couts moyens</a></li>
+								<li><a href="#" th:href="@{/admin/generercoutsmoyens}">Generer couts moyens</a></li>
+								<li><a href="#" th:href="@{/admin/coutmoyen/new}">Ajouter un cout moyen</a></li>
+							</ul></li>
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#">Recettes moyennes <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#" th:href="@{/admin/recettesmoyennes}">Liste recettes moyennes</a></li>
+								<li><a href="#" th:href="@{/admin/genererrecettesmoyennes}">Generer recettes moyennes</a></li>
+								<li><a href="#" th:href="@{/admin/recettemoyenne/new}">Ajouter une recette moyenne</a></li>
+							</ul></li>
+						
+
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#" th:href="@{/logout}">Deconnexion</a></li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</nav>
+
+	</div>
+</div>
+</html>

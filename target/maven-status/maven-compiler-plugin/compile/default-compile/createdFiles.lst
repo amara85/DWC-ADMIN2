@@ -1,0 +1,11 @@
+com\ensat\controllers\UserController.class
+com\ensat\repositories\UserRepository.class
+com\ensat\entities\User.class
+com\ensat\services\UserSecurityService.class
+com\ensat\SpringBootWebApplication.class
+com\ensat\services\UserServiceImpl.class
+com\ensat\controllers\HomeController.class
+com\ensat\entities\UserRole.class
+com\ensat\WebSecurityConfig.class
+com\ensat\CustomAuthenticationSuccessHandler.class
+com\ensat\services\UserService.class

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org" layout:decorator="layouts/layout3">
+<body>
+
+	<div layout:fragment="content">
+		<div class="container">
+
+			<div th:if="${not #lists.isEmpty(users)}">
+				<h2>Liste des utilisateurs</h2>
+				<table class="table table-striped">
+					<tr>
+						<th>Username</th>
+						<th>Prenom</th>
+						<th>Nom</th>
+						<th>Enabled</th>
+						<th>View</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>
+					<tr th:each="user : ${users}">
+						<td th:text="${user.username}">Username</td>
+						<td th:text="${user.prenom}">Prenom</td>
+						<td th:text="${user.nom}">Nom</td>
+						<td th:text="${user.enabled}">Enabled</td>
+						<td><a th:href="${ '/admin/utilisateur/' + user.username}">View</a></td>
+						<td><a th:href="${'/admin/utilisateur/edit/' + user.username}">Edit</a></td>
+						<td><a th:href="${'/admin/utilisateur/delete/' + user.username}">Delete</a></td>
+					</tr>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
