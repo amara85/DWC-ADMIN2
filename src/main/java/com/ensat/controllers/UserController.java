@@ -1,6 +1,7 @@
 package com.ensat.controllers;
 
 import com.ensat.entities.User;
+import com.ensat.services.RoleService;
 import com.ensat.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class UserController {
 
     private UserService userService;
+    
+    private RoleService roleService;
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
-    /**
+    @Autowired
+    public void setRoleService(RoleService roleService) {
+		this.roleService = roleService;
+	}
+
+
+	/**
      * List all Users.
      *
      * @param model
@@ -54,6 +63,7 @@ public class UserController {
     @RequestMapping("admin/utilisateur/edit/{username}")
     public String edit(@PathVariable String username, Model model) {
         model.addAttribute("utilisateur", userService.findByUsername(username));
+        model.addAttribute("allRoles", this.roleService.listAllRoles());
         return "app1/user/userform";
     }
 
@@ -66,6 +76,7 @@ public class UserController {
     @RequestMapping("admin/utilisateur/new")
     public String newUser(Model model) {
         model.addAttribute("utilisateur", new User());
+        model.addAttribute("allRoles", this.roleService.listAllRoles());
         return "app1/user/userform";
     }
 

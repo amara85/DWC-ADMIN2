@@ -1,14 +1,19 @@
 package com.ensat.entities;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,7 +28,6 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
-	@Column(name="username")
 	private String username;
 	
 	private String password;
@@ -34,8 +38,13 @@ public class User {
 	
 	private boolean enabled;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<UserRole> userRoles = new HashSet<UserRole>(0);
+	@ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "USER_ROLES",
+            joinColumns = @JoinColumn(name = "USERNAME"),
+            inverseJoinColumns = @JoinColumn(name = "ID_ROLE")
+    )
+	private Set<Role> roles = new HashSet<Role>(0);
 	
 	public String getUsername() {
 		return username;
@@ -59,18 +68,7 @@ public class User {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-	}
-
-	
-	public Set<UserRole> getUserRoles() {
-		return userRoles;
-	}
-
-	public void setUserRoles(Set<UserRole> userRoles) {
-		this.userRoles = userRoles;
-	}
-	
-	
+	}	
 
 	public String getPrenom() {
 		return prenom;
@@ -88,8 +86,41 @@ public class User {
 		this.nom = nom;
 	}
 
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
 	@Override
 	public String toString(){
-		return "username="+username+", password="+password+", enabled="+enabled;
+		return "username="+username+", prenom="+prenom+", nom="+nom+", enabled="+enabled;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		
+		if (o == this) return true;
+
+		if (!(o instanceof Role))
+			return false;
+
+		User other = (User) o;
+
+		if (Objects.equals(username, other.getUsername()) 
+				&& Objects.equals(nom, other.getNom()) 
+				&& Objects.equals(prenom, other.getPrenom()) 
+				&& Objects.equals(password, other.getPassword()) 
+				&& other.isEnabled() == (this.isEnabled()) ) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(username);
 	}
 }

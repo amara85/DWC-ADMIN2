@@ -1,11 +1,14 @@
-C:\Users\Administrateur\Desktop\eclipse - Copie\workspace\springboot-crud-demo-master-V2\src\main\java\com\ensat\services\UserSecurityService.java
-C:\Users\Administrateur\Desktop\eclipse - Copie\workspace\springboot-crud-demo-master-V2\src\main\java\com\ensat\services\UserServiceImpl.java
-C:\Users\Administrateur\Desktop\eclipse - Copie\workspace\springboot-crud-demo-master-V2\src\main\java\com\ensat\CustomAuthenticationSuccessHandler.java
-C:\Users\Administrateur\Desktop\eclipse - Copie\workspace\springboot-crud-demo-master-V2\src\main\java\com\ensat\WebSecurityConfig.java
-C:\Users\Administrateur\Desktop\eclipse - Copie\workspace\springboot-crud-demo-master-V2\src\main\java\com\ensat\entities\User.java
-C:\Users\Administrateur\Desktop\eclipse - Copie\workspace\springboot-crud-demo-master-V2\src\main\java\com\ensat\controllers\UserController.java
-C:\Users\Administrateur\Desktop\eclipse - Copie\workspace\springboot-crud-demo-master-V2\src\main\java\com\ensat\entities\UserRole.java
-C:\Users\Administrateur\Desktop\eclipse - Copie\workspace\springboot-crud-demo-master-V2\src\main\java\com\ensat\repositories\UserRepository.java
-C:\Users\Administrateur\Desktop\eclipse - Copie\workspace\springboot-crud-demo-master-V2\src\main\java\com\ensat\SpringBootWebApplication.java
-C:\Users\Administrateur\Desktop\eclipse - Copie\workspace\springboot-crud-demo-master-V2\src\main\java\com\ensat\controllers\HomeController.java
-C:\Users\Administrateur\Desktop\eclipse - Copie\workspace\springboot-crud-demo-master-V2\src\main\java\com\ensat\services\UserService.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\services\UserServiceImpl.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\WebSecurityConfig.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\repositories\RoleRepository.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\controllers\UserController.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\controllers\HomeController.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\SpringBootWebApplication.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\CustomAuthenticationSuccessHandler.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\repositories\UserRepository.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\services\UserService.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\entities\User.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\entities\Role.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\services\RoleService.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\services\UserSecurityService.java
+C:\Users\Administrateur\Desktop\eclipse2\workspace\DWC-ADMIN2\src\main\java\com\ensat\services\RoleServiceImpl.java

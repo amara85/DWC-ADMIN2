@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ensat.entities.UserRole;
+import com.ensat.entities.Role;
 import com.ensat.repositories.UserRepository;
 
 @Service
@@ -47,7 +47,7 @@ public class UserSecurityService implements UserDetailsService {
 		
 		
 		com.ensat.entities.User user = UserRepository.findByUsername(username);
-		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRoles());
+		List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
 
 		return buildUserForAuthentication(user, authorities);
 		
@@ -60,13 +60,13 @@ public class UserSecurityService implements UserDetailsService {
 		return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
 	}
 
-	private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+	private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {
 
 		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
 
 		// Build user's authorities
-		for (UserRole userRole : userRoles) {
-			setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
+		for (Role role : roles) {
+			setAuths.add(new SimpleGrantedAuthority(role.getNom()));
 		}
 
 		List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);

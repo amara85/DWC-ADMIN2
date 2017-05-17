@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
         return UserRepository.save(user);
     }
 
-    public void deleteUser(Integer id) {
+    public void deleteUser(String id) {
         UserRepository.delete(id);
     }
     

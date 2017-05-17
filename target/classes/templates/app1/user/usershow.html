@@ -36,6 +36,12 @@
 							<p class="form-control-static" th:text="${utilisateur.enabled}">Enabled</p>
 						</div>
 					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Roles:</label>
+						<div class="col-sm-2" th:each="r : ${utilisateur.roles}">
+							<p class="form-control-static" th:text="${r.nom}+' ; '"></p>
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
