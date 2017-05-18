@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	
     	String authorities1 [] = new String[] {"ROLE_ADMIN" };
-    	String authorities2 [] = new String[] {"ROLE_USER" };
+    	String authorities2 [] = new String[] {"ROLE_USER", "ROLE_ADMIN" };
     	
         http
             .authorizeRequests()

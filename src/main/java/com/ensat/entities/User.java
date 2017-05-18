@@ -9,13 +9,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.Length.List;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * Entity bean with JPA annotations
@@ -28,16 +31,24 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
+	@List({
+	    @Length(min = 2, message = "La taille de username doit etre au minimum 2"),
+	    @Length(max = 6, message = "La taille de username doit etre au maximum 6")
+	})
 	private String username;
 	
+	@Length(min = 2, message = "La taille de username doit etre au minimum 2")
 	private String password;
 	
+	@NotEmpty(message = "Ce champs ne doit pas etre vide")
 	private String prenom;
 	
+	@NotEmpty(message = "Ce champs ne doit pas etre vide")
 	private String nom;
 	
 	private boolean enabled;
 
+	@NotEmpty(message = "Ce champs ne doit pas etre vide")
 	@ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "USER_ROLES",

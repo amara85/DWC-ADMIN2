@@ -1,16 +1,24 @@
 package com.ensat.controllers;
 
-import com.ensat.entities.User;
-import com.ensat.services.RoleService;
-import com.ensat.services.UserService;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.ensat.entities.Role;
+import com.ensat.entities.User;
+import com.ensat.services.RoleService;
+import com.ensat.services.UserService;
 
 /**
  * User controller.
@@ -62,7 +70,11 @@ public class UserController {
     // Afficher le formulaire de modification du User
     @RequestMapping("admin/utilisateur/edit/{username}")
     public String edit(@PathVariable String username, Model model) {
-        model.addAttribute("utilisateur", userService.findByUsername(username));
+    	User utilisateur = userService.findByUsername(username);
+    	Set<Role> roles = new HashSet<Role>(0);
+    	roles.add(roleService.findByNom("ROLE_ADMIN"));
+    	utilisateur.setRoles(roles);
+        model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("allRoles", this.roleService.listAllRoles());
         return "app1/user/userform";
     }
@@ -87,7 +99,11 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "admin/utilisateur", method = RequestMethod.POST)
-    public String saveUser(User utilisateur) {
+    public String saveUser(@Valid @ModelAttribute("utilisateur")  User utilisateur, BindingResult result, Model model) {
+    	if (result.hasErrors()) {
+    		model.addAttribute("allRoles", this.roleService.listAllRoles());
+            return "app1/user/userform";
+        }
         userService.saveUser(utilisateur);
         return "redirect:/admin/utilisateur/" + utilisateur.getUsername();
     }
