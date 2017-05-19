@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ensat.entities.Role;
 import com.ensat.entities.User;
+import com.ensat.services.DimtempsService;
 import com.ensat.services.RoleService;
 import com.ensat.services.UserService;
 
@@ -29,8 +30,11 @@ public class UserController {
     private UserService userService;
     
     private RoleService roleService;
-
+    
     @Autowired
+    private DimtempsService dimtempsServiceImpl;
+
+	@Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
@@ -51,7 +55,7 @@ public class UserController {
     public String list(Model model) {
         model.addAttribute("users", userService.listAllUsers());
         System.out.println("Returning users:");
-        return "app1/user/users";
+        return "admin/user/users";
     }
 
     /**
@@ -64,7 +68,7 @@ public class UserController {
     @RequestMapping("admin/utilisateur/{username}")
     public String showUser(@PathVariable String username, Model model) {
         model.addAttribute("utilisateur", userService.findByUsername(username));
-        return "app1/user/usershow";
+        return "admin/user/usershow";
     }
 
     // Afficher le formulaire de modification du User
@@ -76,7 +80,7 @@ public class UserController {
     	utilisateur.setRoles(roles);
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("allRoles", this.roleService.listAllRoles());
-        return "app1/user/userform";
+        return "admin/user/userform";
     }
 
     /**
@@ -89,7 +93,7 @@ public class UserController {
     public String newUser(Model model) {
         model.addAttribute("utilisateur", new User());
         model.addAttribute("allRoles", this.roleService.listAllRoles());
-        return "app1/user/userform";
+        return "admin/user/userform";
     }
 
     /**
@@ -102,7 +106,7 @@ public class UserController {
     public String saveUser(@Valid @ModelAttribute("utilisateur")  User utilisateur, BindingResult result, Model model) {
     	if (result.hasErrors()) {
     		model.addAttribute("allRoles", this.roleService.listAllRoles());
-            return "app1/user/userform";
+            return "admin/user/userform";
         }
         userService.saveUser(utilisateur);
         return "redirect:/admin/utilisateur/" + utilisateur.getUsername();
