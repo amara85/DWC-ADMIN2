@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org" layout:decorator="layouts/layout3">
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="container">
+
+			<h2>Generer recettes moyennes</h2>
+			<div>
+			      <form class="form-horizontal" th:action="@{/admin/generer-recet-moy}" method="post">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Annees:</label>
+						<div class="col-sm-5">
+							<select  class="form-control" name="annee">
+								<option th:each="annee : ${annees}" th:value="${annee}" th:text="${annee}"></option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row">
+						<button type="submit" class="btn btn-default pull-right">Enregistrer</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+
+

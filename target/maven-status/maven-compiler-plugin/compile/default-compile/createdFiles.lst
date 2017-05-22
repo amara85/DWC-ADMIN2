@@ -8,6 +8,7 @@ com\ensat\SpringBootWebApplication.class
 com\ensat\services\DimtempsServiceImpl.class
 com\ensat\services\UserServiceImpl.class
 com\ensat\repositories\DimtempsRepositoryCustom.class
+com\ensat\controllers\test.class
 com\ensat\WebSecurityConfig.class
 com\ensat\controllers\HomeController.class
 com\ensat\repositories\DimtempsRepositoryImpl.class
