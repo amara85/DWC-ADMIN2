@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rapport PP VS 6eme_subreport2" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f3fc203d-9fa6-47ef-84d4-9f418bbfdf67">
+	<property name="ireport.zoom" value="1.3310000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="S1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date11" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date12" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date21" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date22" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Dest" class="java.lang.String"/>
+	<parameter name="Destination" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT class_tarif,
+      SUM(pax) AS pax
+    FROM
+      (SELECT dt.annee,
+        dt.saison,
+        dl.nvol as nv,
+        ct.CODE_GROUPE as class_tarif,
+        fc.paxod as pax
+      FROM FAIT_COUPON fc
+      INNER JOIN DIM_TEMPS dt
+      ON fc.ID_TEMPS = dt.id
+      INNER JOIN DIM_CLASS_TARIF ct
+      ON fc.ID_CLASS_TARIF = ct.id
+      INNER JOIN DIM_OD do
+      ON fc.ID_OD    = do.id
+      INNER JOIN DIM_LEG dl
+      ON fc.ID_LEG    = dl.id
+      where dt.datev >= TO_DATE($P{date21}, 'DD-MM-YY')
+      AND dt.datev <= TO_DATE($P{date22}, 'DD-MM-YY')
+      AND (do.OD like concat(concat('%',$P{Dest}),'%'))
+      )
+GROUP BY class_tarif
+ORDER BY pax DESC]]>
+	</queryString>
+	<field name="CLASS_TARIF" class="java.lang.String"/>
+	<field name="PAX" class="java.math.BigDecimal"/>
+	<columnHeader>
+		<band height="31">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="0" y="0" width="253" height="31" forecolor="#000000" backcolor="#FFFFFF" uuid="ab744f76-0dd5-46dc-aaf6-3f8991bec783"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Serif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["2- Analyse du trafic par classe tarifaire "+$P{S2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<summary>
+		<band height="230" splitType="Stretch">
+			<pie3DChart>
+				<chart>
+					<reportElement x="0" y="0" width="235" height="230" uuid="91302dd3-8573-4dd5-b8f3-47fecdfbdc6d"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{CLASS_TARIF}]]></keyExpression>
+					<valueExpression><![CDATA[$F{PAX}]]></valueExpression>
+				</pieDataset>
+				<pie3DPlot isShowLabels="true" isCircular="true" labelFormat="{2}">
+					<plot>
+						<seriesColor seriesOrder="0" color="#4282D0"/>
+						<seriesColor seriesOrder="1" color="#C33D3A"/>
+						<seriesColor seriesOrder="2" color="#92B745"/>
+						<seriesColor seriesOrder="3" color="#8460B1"/>
+						<seriesColor seriesOrder="4" color="#00CCCC"/>
+					</plot>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+		</band>
+	</summary>
+</jasperReport>

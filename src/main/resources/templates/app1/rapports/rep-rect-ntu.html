@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org" layout:decorator="layouts/layout2">
+
+<body>
+
+	<th:block layout:fragment="script">
+		<script type="text/javascript" th:src="@{/js/form1.js}"></script>
+		<script type="text/javascript" th:src="@{/otherlibs/jquery-ui/jquery-ui.min.js}"></script>
+	</th:block>
+	<th:block layout:fragment="style">
+		<link href="../static/css/style-forms.css" th:href="@{/css/style-forms.css}" rel="stylesheet" media="screen" />
+		<link href="../static/otherlibs/jquery-ui/jquery-ui.min.css" th:href="@{/otherlibs/jquery-ui/jquery-ui.min.css}" rel="stylesheet" media="screen" />
+	</th:block>
+
+	<div layout:fragment="content">
+
+		<div class="container">
+
+			<h2 class="form-titre">Rapport analyse recettes NTU</h2>
+			<div>
+				<form class="form-horizontal" th:object="${rep2form}"
+					th:action="@{/app1/rapports/anal-rect-ntu}" method="post">
+					
+					<div class="row">
+						<label class="col-sm-2 form-label"></label>
+						<div class="col-sm-3">
+						<p class="error-message" th:if="${#fields.hasErrors('NTU')}" th:errors="*{NTU}"></p>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 form-label">NTU:</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" th:field="*{NTU}" />
+						</div>
+					</div>
+					
+					 <div class="row">
+						<label class="col-sm-2 form-label"></label>
+						<div class="col-sm-3">
+							<p class="error-message" th:if="${#fields.hasErrors('P1')}" th:errors="*{P1}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2 form-label"></label>
+						<div class="col-sm-3">
+							<p class="error-message" th:if="${#fields.hasErrors('P2')}" th:errors="*{P2}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 form-label">P1 (exp: 2015, S15
+							...):</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" th:field="*{P1}"/>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2 form-label">P2 (exp: 2016, S16
+							...):</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" th:field="*{P2}" />
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					
+					<div class="row">
+						<label class="col-sm-2 form-label"></label>
+						<div class="col-sm-3">
+							<p class="error-message" th:if="${#fields.hasErrors('date11')}" th:errors="*{date11}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2 form-label"></label>
+						<div class="col-sm-3">
+							<p class="error-message" th:if="${#fields.hasErrors('date12')}" th:errors="*{date12}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 form-label">Date debut P1:</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control datepicker" th:field="*{date11}"/>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2 form-label">Date fin P1:</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control datepicker" th:field="*{date12}" />
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					
+					<div class="row">
+						<label class="col-sm-2 form-label"></label>
+						<div class="col-sm-3">
+							<p class="error-message" th:if="${#fields.hasErrors('date21')}" th:errors="*{date21}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2 form-label"></label>
+						<div class="col-sm-3">
+							<p class="error-message" th:if="${#fields.hasErrors('date22')}" th:errors="*{date22}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 form-label">Date debut P2:</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control datepicker" th:field="*{date21}" />
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2 form-label">Date fin P2:</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control datepicker" th:field="*{date22}"/>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					
+					<div class="row">
+						<label class="col-sm-2 form-label"></label>
+						<div class="col-sm-3">
+							<p class="error-message" th:if="${#fields.hasErrors('Nvol11')}" th:errors="*{Nvol11}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2 form-label"></label>
+						<div class="col-sm-3">
+							<p class="error-message" th:if="${#fields.hasErrors('Nvol12')}" th:errors="*{Nvol12}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 form-label">Nvol1 P1:</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" th:field="*{Nvol11}" />
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2 form-label">Nvol2 P1:</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" th:field="*{Nvol12}" />
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					
+					<div class="row">
+						<label class="col-sm-2 form-label"></label>
+						<div class="col-sm-3">
+							<p class="error-message" th:if="${#fields.hasErrors('Nvol21')}" th:errors="*{Nvol21}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2 form-label"></label>
+						<div class="col-sm-3">
+							<p class="error-message" th:if="${#fields.hasErrors('Nvol22')}" th:errors="*{Nvol22}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 form-label">Nvol1 P2:</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" th:field="*{Nvol21}" />
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2 form-label">Nvol2 P2:</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" th:field="*{Nvol22}" />
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+
+					<div class="row form-button">
+						<div class="col-sm-11">
+							<button type="submit"
+								class="btn btn-primary pull-right col-sm-2 form-button">Génerer
+								rapport</button>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+
+

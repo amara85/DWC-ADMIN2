@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rapport PP VS 6eme_subreport1" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="74bdb54b-4097-4af3-9bbc-7e0d3bd83faf">
+	<property name="ireport.zoom" value="1.2100000000000009"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="S1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date11" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date12" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date21" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date22" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Nvol11" class="java.lang.String"/>
+	<parameter name="Nvol12" class="java.lang.String"/>
+	<parameter name="Nvol21" class="java.lang.String"/>
+	<parameter name="Nvol22" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT TYPE_TRAF,
+  ROUND(SUM(PAX),0) AS pax
+FROM
+  (SELECT
+    CASE
+      WHEN do.TYPE_TRAF = 0
+      THEN 'Trafic PP'
+      ELSE 'Trafic 6eme'
+    END AS TYPE_TRAF,
+    fc.PAX
+  FROM FAIT_COUPON fc
+  INNER JOIN DIM_TEMPS dt
+  ON fc.ID_TEMPS = dt.id
+  INNER JOIN DIM_OD DO
+  ON fc.ID_OD = do.id
+  INNER JOIN DIM_LEG dl
+  ON fc.ID_LEG    = dl.id
+  WHERE dt.datev >= TO_DATE($P{date21}, 'DD-MM-YY')
+  AND dt.datev <= TO_DATE($P{date22}, 'DD-MM-YY')
+  AND (dl.nvol = $P{Nvol21} or dl.nvol = $P{Nvol22})
+  and (do.TYPE_TRAF = 0 or do.TYPE_TRAF = 1)
+  )
+  group by TYPE_TRAF
+  order by TYPE_TRAF]]>
+	</queryString>
+	<field name="TYPE_TRAF" class="java.lang.String"/>
+	<field name="PAX" class="java.math.BigDecimal"/>
+	<columnHeader>
+		<band height="31">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="0" y="0" width="253" height="31" forecolor="#000000" backcolor="#FFFFFF" uuid="8507bd51-f4c3-4fb1-b52b-f30ee6714156"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Serif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["1- Trafic PP VS 6eme "+$P{S2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<summary>
+		<band height="230" splitType="Stretch">
+			<pie3DChart>
+				<chart>
+					<reportElement x="0" y="0" width="235" height="230" uuid="89537f3e-1f7f-46b4-a405-403793ce6cab"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{TYPE_TRAF}]]></keyExpression>
+					<valueExpression><![CDATA[$F{PAX}]]></valueExpression>
+				</pieDataset>
+				<pie3DPlot isShowLabels="true" isCircular="true" labelFormat="{2}">
+					<plot>
+						<seriesColor seriesOrder="0" color="#4282D0"/>
+						<seriesColor seriesOrder="1" color="#C33D3A"/>
+						<seriesColor seriesOrder="2" color="#92B745"/>
+						<seriesColor seriesOrder="3" color="#8460B1"/>
+						<seriesColor seriesOrder="4" color="#00CCCC"/>
+					</plot>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+		</band>
+	</summary>
+</jasperReport>

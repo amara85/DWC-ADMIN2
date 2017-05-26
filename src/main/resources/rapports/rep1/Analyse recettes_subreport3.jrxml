@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rapport PP VS 6eme_subreport1" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="74bdb54b-4097-4af3-9bbc-7e0d3bd83faf">
+	<property name="ireport.zoom" value="1.4641000000000015"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="S1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date11" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date12" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date21" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date22" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Dest" class="java.lang.String"/>
+	<parameter name="Destination" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT OD,
+  pax_S1,
+  pax_S2,
+  DIF_PAX,
+  VAR_PAX
+FROM
+  (SELECT OD,
+    ROUND(SUM(pax*S1),0)                                                                           AS pax_S1,
+    ROUND(SUM(pax*S2),0)                                                                           AS pax_S2,
+    ROUND(SUM(pax*S2),0) - ROUND(SUM(pax*S1),0)                                                    AS DIF_PAX,
+    ROUND(100    * (ROUND(SUM(pax*S2),0) - ROUND(SUM(pax*S1),0))/NULLIF(ROUND(SUM(pax*S1),0),0),0) AS VAR_PAX
+  FROM
+    (SELECT
+      do.OD,
+      fc.paxod  AS pax,
+      fc.RECET_BRUT,
+      CASE
+        WHEN (dt.datev >= TO_DATE($P{date11}, 'DD-MM-YY')
+        AND dt.datev   <= TO_DATE($P{date12}, 'DD-MM-YY'))
+        THEN 1
+        ELSE 0
+      END AS S1,
+      CASE
+        WHEN (dt.datev >= TO_DATE($P{date21}, 'DD-MM-YY')
+        AND dt.datev   <= TO_DATE($P{date22}, 'DD-MM-YY'))
+        THEN 1
+        ELSE 0
+      END AS S2
+    FROM FAIT_COUPON fc
+    INNER JOIN DIM_TEMPS dt
+    ON fc.ID_TEMPS = dt.id
+    INNER JOIN DIM_OD DO
+    ON fc.ID_OD = do.id
+    INNER JOIN DIM_LEG dl
+    ON fc.ID_LEG       = dl.id
+    WHERE (( dt.datev >= TO_DATE($P{date11}, 'DD-MM-YY')
+    AND dt.datev      <= TO_DATE($P{date12}, 'DD-MM-YY')
+    AND (do.OD LIKE concat(concat('%',$P{Dest}),'%')) )
+    OR ( dt.datev >= TO_DATE($P{date21}, 'DD-MM-YY')
+    AND dt.datev  <= TO_DATE($P{date22}, 'DD-MM-YY')
+    AND (do.OD LIKE concat(concat('%',$P{Dest}),'%')) ) )
+    AND do.TYPE_TRAF = 1
+    )
+  GROUP BY od
+  ORDER BY pax_S2 DESC
+  )
+WHERE ROWNUM <= 10
+UNION ALL
+SELECT 'Autres',
+  SUM(pax_S1)                                                       AS pax_S1,
+  SUM(pax_S2)                                                       AS pax_S2,
+  SUM(pax_S2) - SUM(pax_S1)                                         AS DIF_PAX,
+  ROUND(100   *(SUM(pax_S2) - SUM(pax_S1))/NULLIF(SUM(pax_S1),0),0) AS VAR_PAX
+FROM
+  (SELECT
+    CASE
+      WHEN ROWNUM <= 10
+      THEN od
+      ELSE 'Autres'
+    END AS OD,
+    pax_S1,
+    pax_S2
+  FROM
+    (SELECT OD,
+      ROUND(SUM(pax*S1),0) AS pax_S1,
+      ROUND(SUM(pax*S2),0) AS pax_S2
+    FROM
+      (SELECT
+        do.OD,
+        fc.paxod  AS pax,
+        fc.RECET_BRUT,
+        CASE
+          WHEN (dt.datev >= TO_DATE($P{date11}, 'DD-MM-YY')
+          AND dt.datev   <= TO_DATE($P{date12}, 'DD-MM-YY'))
+          THEN 1
+          ELSE 0
+        END AS S1,
+        CASE
+          WHEN (dt.datev >= TO_DATE($P{date21}, 'DD-MM-YY')
+          AND dt.datev   <= TO_DATE($P{date22}, 'DD-MM-YY'))
+          THEN 1
+          ELSE 0
+        END AS S2
+      FROM FAIT_COUPON fc
+      INNER JOIN DIM_TEMPS dt
+      ON fc.ID_TEMPS = dt.id
+      INNER JOIN DIM_OD DO
+      ON fc.ID_OD = do.id
+      INNER JOIN DIM_LEG dl
+      ON fc.ID_LEG       = dl.id
+      WHERE (( dt.datev >= TO_DATE($P{date11}, 'DD-MM-YY')
+      AND dt.datev      <= TO_DATE($P{date12}, 'DD-MM-YY')
+      AND (do.OD LIKE concat(concat('%',$P{Dest}),'%')) )
+      OR ( dt.datev >= TO_DATE($P{date21}, 'DD-MM-YY')
+      AND dt.datev  <= TO_DATE($P{date22}, 'DD-MM-YY')
+      AND (do.OD LIKE concat(concat('%',$P{Dest}),'%')) ) )
+      AND do.TYPE_TRAF = 1
+      )
+    GROUP BY od
+    ORDER BY pax_S2 DESC
+    )
+  )
+WHERE OD LIKE 'Autres'
+UNION ALL
+SELECT 'Total',
+  ROUND(SUM(pax*S1),0)                                                                           AS pax_S1,
+  ROUND(SUM(pax*S2),0)                                                                           AS pax_S2,
+  ROUND(SUM(pax*S2),0) - ROUND(SUM(pax*S1),0)                                                    AS DIF_PAX,
+  ROUND(100    * (ROUND(SUM(pax*S2),0) - ROUND(SUM(pax*S1),0))/NULLIF(ROUND(SUM(pax*S1),0),0),0) AS VAR_PAX
+FROM
+  (SELECT fc.paxod AS pax,
+    fc.RECET_BRUT,
+    CASE
+      WHEN (dt.datev >= TO_DATE($P{date11}, 'DD-MM-YY')
+      AND dt.datev   <= TO_DATE($P{date12}, 'DD-MM-YY'))
+      THEN 1
+      ELSE 0
+    END AS S1,
+    CASE
+      WHEN (dt.datev >= TO_DATE($P{date21}, 'DD-MM-YY')
+      AND dt.datev   <= TO_DATE($P{date22}, 'DD-MM-YY'))
+      THEN 1
+      ELSE 0
+    END AS S2
+  FROM FAIT_COUPON fc
+  INNER JOIN DIM_TEMPS dt
+  ON fc.ID_TEMPS = dt.id
+  INNER JOIN DIM_OD DO
+  ON fc.ID_OD = do.id
+  INNER JOIN DIM_LEG dl
+  ON fc.ID_LEG       = dl.id
+  WHERE (( dt.datev >= TO_DATE($P{date11}, 'DD-MM-YY')
+  AND dt.datev      <= TO_DATE($P{date12}, 'DD-MM-YY')
+  AND (do.OD LIKE concat(concat('%',$P{Dest}),'%')) )
+  OR ( dt.datev >= TO_DATE($P{date21}, 'DD-MM-YY')
+  AND dt.datev  <= TO_DATE($P{date22}, 'DD-MM-YY')
+  AND (do.OD LIKE concat(concat('%',$P{Dest}),'%')) ) )
+  AND do.TYPE_TRAF = 1
+  )]]>
+	</queryString>
+	<field name="OD" class="java.lang.String"/>
+	<field name="PAX_S1" class="java.math.BigDecimal"/>
+	<field name="PAX_S2" class="java.math.BigDecimal"/>
+	<field name="DIF_PAX" class="java.math.BigDecimal"/>
+	<field name="VAR_PAX" class="java.math.BigDecimal"/>
+	<pageHeader>
+		<band height="32">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="0" y="0" width="368" height="31" forecolor="#000000" backcolor="#FFFFFF" uuid="cfce714e-ca47-42ed-a2d7-c3390ee62fe7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Serif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["3- Analyse du trafic 6eme par OD "+$P{S2}+" VS "+$P{S1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Opaque" x="82" y="2" width="110" height="23" forecolor="#000000" backcolor="#0099CC" uuid="2dad888c-9f15-4dd9-b696-b71c4130c3ac"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{S1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="302" y="2" width="98" height="23" forecolor="#000000" backcolor="#0099CC" uuid="3a5de150-cbb0-4ddd-a54d-82d5099de40d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Ecart]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Opaque" x="192" y="2" width="110" height="23" forecolor="#000000" backcolor="#0099CC" uuid="06a12cf1-2661-41ea-a688-b89353ae87c5"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{S2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="2" width="82" height="23" forecolor="#000000" backcolor="#0099CC" uuid="6158d193-b38b-4cf5-90e2-eec72f359814"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[OD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="400" y="2" width="81" height="23" forecolor="#000000" backcolor="#0099CC" uuid="522f1192-8b15-4780-9419-4f73f62f4ece"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Variation]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="0" y="0" width="82" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="769f4895-450d-4eb8-b3d1-14222aa7d8b3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="DejaVu Sans" size="10" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="82" y="0" width="110" height="20" uuid="765e5822-0f08-473e-8125-a27423b2692e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PAX_S1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="192" y="0" width="110" height="20" uuid="174ace83-be66-4629-88e0-a5f088dda04b"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PAX_S2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="302" y="0" width="98" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="55967198-03ff-42e2-8141-7957d3498707"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIF_PAX}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="400" y="0" width="81" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="a3bf2135-4b22-4ba9-92ef-a9c7cc6ba0df"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VAR_PAX}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

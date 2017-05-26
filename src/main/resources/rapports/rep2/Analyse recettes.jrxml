@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rapport suivi saison Page 1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="171baf45-8633-4bb8-9e72-81032bc677c7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Administrateur\\Desktop\\Rapports Ireport\\Rapports rentabilité\\NTU\\6mois\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date11" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date12" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date21" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date22" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Nvol11" class="java.lang.String"/>
+	<parameter name="Nvol12" class="java.lang.String"/>
+	<parameter name="Nvol21" class="java.lang.String"/>
+	<parameter name="Nvol22" class="java.lang.String"/>
+	<parameter name="NTU2" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+ distinct 1
+FROM FAIT_VOL fv]]>
+	</queryString>
+	<field name="1" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="60" splitType="Stretch">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="36" y="12" width="472" height="32" forecolor="#000000" backcolor="#FFFFFF" uuid="cdabfd39-cfeb-4ae5-9dc5-d97a3547f9ea"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="22" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Analyse des recettes "+$P{NTU2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="671" splitType="Stretch">
+			<subreport>
+				<reportElement x="32" y="12" width="240" height="246" uuid="99268f2d-3ec9-4079-9cf7-9f0b0e7e6e19"/>
+				<subreportParameter name="date11">
+					<subreportParameterExpression><![CDATA[$P{date11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date21">
+					<subreportParameterExpression><![CDATA[$P{date21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date12">
+					<subreportParameterExpression><![CDATA[$P{date12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date22">
+					<subreportParameterExpression><![CDATA[$P{date22}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="NTU2">
+					<subreportParameterExpression><![CDATA[$P{NTU2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol21">
+					<subreportParameterExpression><![CDATA[$P{Nvol21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S2">
+					<subreportParameterExpression><![CDATA[$P{S2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol22">
+					<subreportParameterExpression><![CDATA[$P{Nvol22}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S1">
+					<subreportParameterExpression><![CDATA[$P{S1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol12">
+					<subreportParameterExpression><![CDATA[$P{Nvol12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol11">
+					<subreportParameterExpression><![CDATA[$P{Nvol11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Analyse recettes_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="283" y="12" width="243" height="246" uuid="2570374c-5717-4ee3-977b-5d05f1637b73"/>
+				<subreportParameter name="date11">
+					<subreportParameterExpression><![CDATA[$P{date11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date21">
+					<subreportParameterExpression><![CDATA[$P{date21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date12">
+					<subreportParameterExpression><![CDATA[$P{date12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date22">
+					<subreportParameterExpression><![CDATA[$P{date22}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="NTU2">
+					<subreportParameterExpression><![CDATA[$P{NTU2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol21">
+					<subreportParameterExpression><![CDATA[$P{Nvol21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S2">
+					<subreportParameterExpression><![CDATA[$P{S2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol22">
+					<subreportParameterExpression><![CDATA[$P{Nvol22}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S1">
+					<subreportParameterExpression><![CDATA[$P{S1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol12">
+					<subreportParameterExpression><![CDATA[$P{Nvol12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol11">
+					<subreportParameterExpression><![CDATA[$P{Nvol11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Analyse recettes_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="32" y="295" width="485" height="306" uuid="152bc260-cfd4-4d1f-9aa6-af43559c3b08"/>
+				<subreportParameter name="date11">
+					<subreportParameterExpression><![CDATA[$P{date11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date21">
+					<subreportParameterExpression><![CDATA[$P{date21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date12">
+					<subreportParameterExpression><![CDATA[$P{date12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date22">
+					<subreportParameterExpression><![CDATA[$P{date22}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="NTU2">
+					<subreportParameterExpression><![CDATA[$P{NTU2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol21">
+					<subreportParameterExpression><![CDATA[$P{Nvol21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S2">
+					<subreportParameterExpression><![CDATA[$P{S2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol22">
+					<subreportParameterExpression><![CDATA[$P{Nvol22}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S1">
+					<subreportParameterExpression><![CDATA[$P{S1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol12">
+					<subreportParameterExpression><![CDATA[$P{Nvol12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Nvol11">
+					<subreportParameterExpression><![CDATA[$P{Nvol11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Analyse recettes_subreport3.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>
