@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rapport suivi saison Page 3_subreport1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="35e33d16-723d-4682-9340-1cfe9ef5c5c3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="S1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select dt.saison, ROUND(100*SUM(fv.PAX)/NULLIF(SUM(fv.SO),0),0) as CR
+from FAIT_VOL fv
+inner JOIN DIM_LEG dl on fv.ID_LEG = dl.ID
+inner join DIM_TEMPS dt on fv.ID_TEMPS = dt.id
+inner join DIM_AVION da on fv.ID_AVION = da.id
+where ((dt.SAISON LIKE $P{S1}
+AND dt.datev <= TO_DATE($P{date1}, 'DD-MM-YY'))
+OR (dt.SAISON LIKE $P{S2}
+AND dt.datev <= TO_DATE($P{date2}, 'DD-MM-YY'))
+OR (dt.SAISON LIKE $P{S3}
+AND dt.datev       <= TO_DATE($P{date3}, 'DD-MM-YY')))
+and (fv.ID_TYPE_VOL = 2 or fv.ID_TYPE_VOL = 3)
+and fv.ACTIVS like 'REG'
+group by dt.saison
+order by dt.saison]]>
+	</queryString>
+	<field name="SAISON" class="java.lang.String"/>
+	<field name="CR" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="158">
+			<barChart>
+				<chart>
+					<reportElement x="0" y="0" width="680" height="158" uuid="43f995df-c394-4ffe-b984-5096408ed18c"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{SAISON}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{SAISON}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{CR}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true" isShowTickLabels="false" isShowTickMarks="true">
+					<plot>
+						<seriesColor seriesOrder="0" color="#4282D0"/>
+						<seriesColor seriesOrder="1" color="#C33D3A"/>
+						<seriesColor seriesOrder="2" color="#92B745"/>
+						<seriesColor seriesOrder="3" color="#8460B1"/>
+						<seriesColor seriesOrder="4" color="#00CCCC"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat verticalTickLabels="true"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="true"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

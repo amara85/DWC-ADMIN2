@@ -2,13 +2,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:th="http://www.thymeleaf.org" layout:decorator="layouts/layout3">
+	
+<head>
+  <title>Liste des utilisateurs</title>
+</head>
+
 <body>
+
+	<th:block layout:fragment="script">
+	</th:block>
+	<th:block layout:fragment="style">
+		<link href="../static/css/style-1.css" th:href="@{/css/style-1.css}"
+			rel="stylesheet" media="screen" />
+	</th:block>
 
 	<div layout:fragment="content">
 		<div class="container">
 
 			<div th:if="${not #lists.isEmpty(users)}">
-				<h2>Liste des utilisateurs</h2>
+				<h3 class="titre1">Liste des utilisateurs</h3>
+
 				<table class="table table-striped">
 					<tr>
 						<th>Username</th>
@@ -25,8 +38,10 @@
 						<td th:text="${user.nom}">Nom</td>
 						<td th:text="${user.enabled}">Enabled</td>
 						<td><a th:href="${ '/admin/utilisateur/' + user.username}">View</a></td>
-						<td><a th:href="${'/admin/utilisateur/edit/' + user.username}">Edit</a></td>
-						<td><a th:href="${'/admin/utilisateur/delete/' + user.username}">Delete</a></td>
+						<td><a
+							th:href="${'/admin/utilisateur/edit/' + user.username}">Edit</a></td>
+						<td><a
+							th:href="${'/admin/utilisateur/delete/' + user.username}">Delete</a></td>
 					</tr>
 				</table>
 

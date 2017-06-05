@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<body>
 
 <div class="container" >
 	<div th:fragment="header" id="navbar">
@@ -31,12 +34,20 @@
 							<ul class="dropdown-menu">
 								<li><a href="#" th:href="@{/admin/appareils}">Liste des appareils</a></li>
 								<li><a href="#" th:href="@{/admin/appareil/new}">Ajouter un appareil</a></li>
-							</ul></li>
-						<li class="dropdown"><a class="dropdown-toggle"
-							data-toggle="dropdown" href="#">Avions <span class="caret"></span></a>
-							<ul class="dropdown-menu">
 								<li><a href="#" th:href="@{/admin/avions}">Liste des avions</a></li>
 								<li><a href="#" th:href="@{/admin/avion/new}">Ajouter un avion</a></li>
+							</ul></li>
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#">Données références <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#" th:href="@{/admin/intnvols}">Intervalles Nvol</a></li>
+								<li><a href="#" th:href="@{/admin/intnvol/new}">Ajouter intervalle Nvol</a></li>
+								<li><a href="#" th:href="@{/admin/nvols}">Numéros des vol</a></li>
+								<li><a href="#" th:href="@{/admin/nvol/new}">Ajouter Nvol</a></li>
+								<li><a href="#" th:href="@{/admin/flottetus}">Flotte TU</a></li>
+								<li><a href="#" th:href="@{/admin/flottetu/new}">Ajouter élément flotte TU</a></li>
+								<li><a href="#" th:href="@{/admin/limitations}">Limitations appareils</a></li>
+								<li><a href="#" th:href="@{/admin/limitation/new}">Ajouter limitation appareil</a></li>
 							</ul></li>
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#">Couts moyens <span class="caret"></span></a>
@@ -56,7 +67,7 @@
 
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#" th:href="@{/logout}">Deconnexion</a></li>
+						<li><a href="#" th:href="@{/logout}">Déconnexion</a></li>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->
@@ -65,4 +76,6 @@
 
 	</div>
 </div>
+</body>
+
 </html>

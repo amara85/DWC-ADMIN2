@@ -1,28 +1,32 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
 
-<head lang="en">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-    <link href="../static/css/style.css" th:href="@{/css/style-global.css}" rel="stylesheet" media="screen"/>
-    <link href="../static/css/style.css" th:href="@{/css/style-forms.css}" rel="stylesheet" media="screen"/>
-    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/jquery.backstretch.min.js}"></script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="../static/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+<link href="../static/css/style.css" th:href="@{/css/style-global.css}"
+	rel="stylesheet" media="screen" />
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.backstretch.min.js}"></script>
 </head>
 
 <body>
-    <div id="my-template-header"> 
-    <th:block th:include="fragments/header-admin :: header"></th:block> 
-    </div>
 
-    <div id="the-content" layout:fragment="content">
-        <!-- include here the content of the current page visited by the user -->
-    </div>
+	<th:block layout:fragment="script"></th:block>
+	<th:block layout:fragment="style"></th:block>
 
-    <div id="my-template-footer">
-    </div>
+	<div id="my-template-header">
+		<th:block th:include="fragments/header-admin :: header"></th:block>
+	</div>
+
+	<div id="the-content" layout:fragment="content">
+		<!-- include here the content of the current page visited by the user -->
+	</div>
+
+	<div id="my-template-footer"></div>
 </body>
 </html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org" layout:decorator="layouts/layout3">
+	
+<head>
+  <title>Ajouter nouveau appareil</title>
+</head>
+
+<body>
+
+	<th:block layout:fragment="script">
+	</th:block>
+	<th:block layout:fragment="style">
+		<link href="../static/css/style-1.css" th:href="@{/css/style-1.css}"
+			rel="stylesheet" media="screen" />
+	</th:block>
+
+	<div layout:fragment="content">
+
+		<div class="container">
+
+			<h3 class="titre1">Détails d'un appareil</h3>
+
+			<div>
+				<form class="form-horizontal" th:object="${appareil}"
+					th:action="@{/admin/appareil}" method="post">
+					<div class="form-group hidden">
+						<label class="col-sm-2   label1">ID:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" th:field="*{id}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('id')}"
+								th:errors="*{id}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">Code:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" th:field="*{code}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('code')}"
+								th:errors="*{code}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">TU/AFF:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control"
+								th:field="*{tuaff}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('tuaff')}"
+								th:errors="*{tuaff}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">Famille:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" th:field="*{famille}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('famille')}" th:errors="*{famille}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">Type:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" th:field="*{type}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">Description:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" th:field="*{description}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">SO:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" th:field="*{so}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('so')}" th:errors="*{so}"></p>
+						</div>
+					</div>
+                    <div class="form-group">
+						<label class="col-sm-2   label1">Ordre:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" th:field="*{ordre}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('ordre')}" th:errors="*{ordre}"></p>
+						</div>
+					</div>
+					<div class="row">
+					
+					
+						<div class="col-sm-7">
+							<button type="submit" class="btn btn-primary pull-right">Enregistrer</button>
+						</div>
+						<div class="col-sm-5"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+
+

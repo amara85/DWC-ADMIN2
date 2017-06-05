@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rapport suivi saison Page 1_subreport1" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="23a540e7-d3a4-46ae-a1ed-0f826836d00e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="S1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select sum(SO_S14) as SO_S14,
+sum(SO_S15) as SO_S15,
+sum(SO_S16) as SO_S16,
+(sum(SO_S16) - sum(SO_S14)) as DIF_SO_1,
+round((sum(SO_S16) - sum(SO_S14))/NULLIF(sum(SO_S14),0) *100,0) as VAR_SO_1,
+(sum(SO_S16) - sum(SO_S15)) as DIF_SO_2,
+round((sum(SO_S16) - sum(SO_S15))/NULLIF(sum(SO_S15),0) *100,0) as VAR_SO_2,
+ROUND(sum(ROT_S14),0) as ROT_S14,
+ROUND(sum(ROT_S15),0) as ROT_S15,
+ROUND(sum(ROT_S16),0) as ROT_S16,
+round((sum(ROT_S16) - sum(ROT_S14)),0) as DIF_ROT_1,
+round((sum(ROT_S16) - sum(ROT_S14))/NULLIF(sum(ROT_S14),0) *100,0) as VAR_ROT_1,
+round((sum(ROT_S16) - sum(ROT_S15)),0) as DIF_ROT_2,
+round((sum(ROT_S16) - sum(ROT_S15))/NULLIF(sum(ROT_S15),0) *100,0) as VAR_ROT_2,
+ROUND(sum(HV_S14),0) as HV_S14,
+ROUND(sum(HV_S15),0) as HV_S15,
+ROUND(sum(HV_S16),0) as HV_S16,
+ROUND((sum(HV_S16) - sum(HV_S14)),0) as DIF_HV_1,
+round((sum(HV_S16) - sum(HV_S14))/NULLIF(sum(HV_S14),0) *100,0) as VAR_HV_1,
+ROUND((sum(HV_S16) - sum(HV_S15)),0) as DIF_HV_2,
+round((sum(HV_S16) - sum(HV_S15))/NULLIF(sum(HV_S15),0) *100,0) as VAR_HV_2
+from (
+SELECT
+   CASE
+      WHEN SAISON LIKE $P{S1}
+      THEN fv.SO
+      ELSE 0
+    END AS SO_S14,
+     CASE
+      WHEN SAISON LIKE $P{S2}
+      THEN fv.SO
+      ELSE 0
+    END AS SO_S15,
+     CASE
+      WHEN SAISON LIKE $P{S3}
+      THEN fv.SO
+      ELSE 0
+    END AS SO_S16,
+    CASE
+      WHEN SAISON LIKE $P{S1}
+      THEN fv.ROT
+      ELSE 0
+    END AS ROT_S14,
+     CASE
+      WHEN SAISON LIKE $P{S2}
+      THEN fv.ROT
+      ELSE 0
+    END AS ROT_S15,
+     CASE
+      WHEN SAISON LIKE $P{S3}
+      THEN fv.ROT
+      ELSE 0
+    END AS ROT_S16,
+    CASE
+      WHEN SAISON LIKE $P{S1}
+      THEN fv.HVC
+      ELSE 0
+    END AS HV_S14,
+     CASE
+      WHEN SAISON LIKE $P{S2}
+      THEN fv.HVC
+      ELSE 0
+    END AS HV_S15,
+     CASE
+      WHEN SAISON LIKE $P{S3}
+      THEN fv.HVC
+      ELSE 0
+    END AS HV_S16
+FROM FAIT_VOL fv
+INNER JOIN DIM_LEG dl
+ON fv.ID_LEG = dl.ID
+INNER JOIN DIM_TEMPS dt
+ON fv.ID_TEMPS = dt.id
+WHERE ((dt.SAISON LIKE $P{S1}
+AND dt.datev <= TO_DATE($P{date1}, 'DD-MM-YY'))
+OR (dt.SAISON LIKE $P{S2}
+AND dt.datev <= TO_DATE($P{date2}, 'DD-MM-YY'))
+OR (dt.SAISON LIKE $P{S3}
+AND dt.datev       <= TO_DATE($P{date3}, 'DD-MM-YY')))
+AND fv.activs like 'SUP'
+AND (fv.ID_TYPE_VOL = 2
+OR fv.ID_TYPE_VOL   = 3))]]>
+	</queryString>
+	<field name="SO_S14" class="java.math.BigDecimal"/>
+	<field name="SO_S15" class="java.math.BigDecimal"/>
+	<field name="SO_S16" class="java.math.BigDecimal"/>
+	<field name="DIF_SO_1" class="java.math.BigDecimal"/>
+	<field name="VAR_SO_1" class="java.math.BigDecimal"/>
+	<field name="DIF_SO_2" class="java.math.BigDecimal"/>
+	<field name="VAR_SO_2" class="java.math.BigDecimal"/>
+	<field name="ROT_S14" class="java.math.BigDecimal"/>
+	<field name="ROT_S15" class="java.math.BigDecimal"/>
+	<field name="ROT_S16" class="java.math.BigDecimal"/>
+	<field name="DIF_ROT_1" class="java.math.BigDecimal"/>
+	<field name="VAR_ROT_1" class="java.math.BigDecimal"/>
+	<field name="DIF_ROT_2" class="java.math.BigDecimal"/>
+	<field name="VAR_ROT_2" class="java.math.BigDecimal"/>
+	<field name="HV_S14" class="java.math.BigDecimal"/>
+	<field name="HV_S15" class="java.math.BigDecimal"/>
+	<field name="HV_S16" class="java.math.BigDecimal"/>
+	<field name="DIF_HV_1" class="java.math.BigDecimal"/>
+	<field name="VAR_HV_1" class="java.math.BigDecimal"/>
+	<field name="DIF_HV_2" class="java.math.BigDecimal"/>
+	<field name="VAR_HV_2" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="136" splitType="Stretch">
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="289" y="92" width="67" height="20" uuid="63ce49aa-c9a8-4e2b-a9e7-1dd0cc04b6a5"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DIF_HV_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="216" y="92" width="73" height="20" uuid="d795dbe7-94ed-474b-9127-d8ce1ad5fe29"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{HV_S16}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="401" y="72" width="73" height="20" uuid="8395f47d-7b9e-4559-b93c-65220b340c67"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DIF_ROT_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="139" y="52" width="77" height="20" uuid="ed3357cd-f79e-4268-9bb3-7cdfb0502ab6"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{SO_S15}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="474" y="92" width="45" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="e6c37df6-337b-4012-98ec-896586278811"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VAR_HV_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="216" y="52" width="73" height="20" uuid="774f3376-1ab6-4d83-8279-1d1981ec785e"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{SO_S16}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="139" y="72" width="77" height="20" uuid="b3bddab3-06d0-4174-8e5d-37d842a327cd"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ROT_S15}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="401" y="52" width="73" height="20" uuid="df797692-f7a3-4160-af7a-cbe3236b1bd5"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DIF_SO_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="401" y="92" width="73" height="20" uuid="9d9f50fa-2d85-49e7-bb39-88e390a7236f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DIF_HV_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="474" y="52" width="45" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="d92a2580-c032-4e27-a5ee-f00160a3625e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VAR_SO_2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="10" y="72" width="52" height="20" forecolor="#000000" backcolor="#0099CC" uuid="d2b71196-1de0-4283-a195-88b8c26bb87f"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ROT]]></text>
+			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="216" y="72" width="73" height="20" uuid="43da8b63-5423-4cb4-95d6-2051dfc6c444"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ROT_S16}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="10" y="52" width="52" height="20" forecolor="#000000" backcolor="#0099CC" uuid="2fde0289-8225-4893-b5d0-a7bae6e0ebaa"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[SO]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="474" y="72" width="45" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="76b4db6f-1737-4d27-a994-e6980fcb82f4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VAR_ROT_2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="10" y="92" width="52" height="20" forecolor="#000000" backcolor="#0099CC" uuid="76f7f083-0173-4050-9a2f-e12b80c76ea3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[HV]]></text>
+			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="62" y="52" width="77" height="20" uuid="10c2c0fd-f670-4197-be0e-67d06e94ff7e"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{SO_S14}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="62" y="72" width="77" height="20" uuid="590b5bf8-8463-4e4f-a582-d840f425e6c6"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ROT_S14}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="356" y="52" width="45" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="e8640e9f-bd82-479d-919a-7d54113441e3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VAR_SO_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="356" y="72" width="45" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="a76f550e-239e-4b3f-b187-ce1f5e7b15c3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VAR_ROT_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="62" y="92" width="77" height="20" uuid="43a54599-4b7e-4c23-bace-f98b9fb2d2d1"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{HV_S14}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="289" y="72" width="67" height="20" uuid="909ce4e3-7840-4425-a14c-f7dc088043e5"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DIF_ROT_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="289" y="52" width="67" height="20" uuid="2c4222d7-3ad3-4241-a368-cb035eaa07db"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DIF_SO_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="139" y="92" width="77" height="20" uuid="82584c70-314d-45cc-aa26-264105ac68ca"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{HV_S15}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="356" y="92" width="45" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="31a331da-0c9d-473e-bdfb-1cd006e7a3c9"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VAR_HV_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="62" y="10" width="77" height="42" forecolor="#000000" backcolor="#0099CC" uuid="413bd8d9-1a58-41ed-bdbe-75b25b24cd49"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{S1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="289" y="33" width="67" height="19" forecolor="#000000" backcolor="#0099CC" uuid="0f213ad9-1de3-481a-917c-5002bb2ec3b9"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nbre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="474" y="33" width="45" height="19" forecolor="#000000" backcolor="#0099CC" uuid="6c22d328-d84a-4637-981a-bff232ab97cf"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="289" y="10" width="112" height="23" forecolor="#000000" backcolor="#0099CC" uuid="4214eae8-84ab-485a-8114-0c5829ee0a59"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{S3}+"  VS  "+$P{S1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="356" y="33" width="45" height="19" forecolor="#000000" backcolor="#0099CC" uuid="dba564b4-94e9-43d4-87ba-ddc95ebc440f"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="216" y="10" width="73" height="42" forecolor="#000000" backcolor="#0099CC" uuid="c550cd21-6f64-4732-ad13-9d79a1fcd958"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{S3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="139" y="10" width="77" height="42" forecolor="#000000" backcolor="#0099CC" uuid="1cc2494d-cdbb-4783-ac8a-c04f25302445"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{S2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="401" y="10" width="118" height="23" forecolor="#000000" backcolor="#0099CC" uuid="6bedde5b-bf47-4efb-95cf-b1c6615f5b2c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{S3}+"  VS  "+$P{S2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="10" width="52" height="42" forecolor="#000000" backcolor="#0099CC" uuid="54d804e1-b447-4679-b2c3-bef907f77fa9"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="401" y="33" width="73" height="19" forecolor="#000000" backcolor="#0099CC" uuid="b449c00b-0c07-4b1b-a788-4b6981448a94"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nbre]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

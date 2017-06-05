@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org" layout:decorator="layouts/layout2">
+
+<head>
+  <title>Générer rapport suivi saison </title>
+</head>
+
+<body>
+
+	<th:block layout:fragment="script">
+		<script type="text/javascript" th:src="@{/js/form1.js}"></script>
+		<script type="text/javascript" th:src="@{/otherlibs/jquery-ui/jquery-ui.min.js}"></script>
+	</th:block>
+	<th:block layout:fragment="style">
+		<link href="../static/css/style-forms.css" th:href="@{/css/style-forms.css}" rel="stylesheet" media="screen" />
+		<link href="../static/otherlibs/jquery-ui/jquery-ui.min.css" th:href="@{/otherlibs/jquery-ui/jquery-ui.min.css}" rel="stylesheet" media="screen" />
+	</th:block>
+
+	<div layout:fragment="content">
+
+		<div class="container">
+
+			<h2 class="form-titre">Rapport suivi saison</h2>
+			<div>
+				<form class="form-horizontal" th:object="${rep3form}"
+					th:action="@{/app1/rapports/suivi-saison}" method="post">
+					
+					<div class="row">
+						<label class="col-sm-1 form-label"></label>
+						<div class="col-sm-2">
+							<p class="error-message" th:if="${#fields.hasErrors('S1')}" th:errors="*{S1}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-1 form-label"></label>
+						<div class="col-sm-2">
+							<p class="error-message" th:if="${#fields.hasErrors('S2')}" th:errors="*{S2}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-1 form-label"></label>
+						<div class="col-sm-2">
+							<p class="error-message" th:if="${#fields.hasErrors('S3')}" th:errors="*{S3}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-1 form-label">S1:</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" th:field="*{S1}"/>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-1 form-label">S2:</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" th:field="*{S2}" />
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-1 form-label">S3:</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" th:field="*{S3}" />
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					
+					<div class="row">
+						<label class="col-sm-1 form-label"></label>
+						<div class="col-sm-2">
+							<p class="error-message" th:if="${#fields.hasErrors('date1')}" th:errors="*{date1}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-1 form-label"></label>
+						<div class="col-sm-2">
+							<p class="error-message" th:if="${#fields.hasErrors('date2')}" th:errors="*{date2}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-1 form-label"></label>
+						<div class="col-sm-2">
+							<p class="error-message" th:if="${#fields.hasErrors('date3')}" th:errors="*{date3}"></p>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-1 form-label">Date 1:</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control datepicker" th:field="*{date1}"  readonly="readonly" />
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-1 form-label">Date 2:</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control datepicker" th:field="*{date2}" readonly="readonly"/>
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-1 form-label">Date 3:</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control datepicker" th:field="*{date3}" readonly="readonly"/>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+					
+					<div class="row form-button">
+						<div class="col-sm-11">
+							<button type="submit"
+								class="btn btn-primary pull-right col-sm-2 form-button">Génerer
+								rapport</button>
+						</div>
+						<div class="col-sm-1"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+
+

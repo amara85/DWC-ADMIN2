@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rapport suivi saison Page 1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="171baf45-8633-4bb8-9e72-81032bc677c7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="281"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Administrateur\\Desktop\\Rapports Ireport\\Rapports dev-suivi saison\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+ distinct 1
+FROM FAIT_VOL fv]]>
+	</queryString>
+	<field name="1" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="75" splitType="Stretch">
+			<textField>
+				<reportElement x="77" y="0" width="446" height="32" uuid="cdabfd39-cfeb-4ae5-9dc5-d97a3547f9ea"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Rapport de suivi  "+$P{S3}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="661" splitType="Stretch">
+			<staticText>
+				<reportElement x="13" y="0" width="100" height="20" uuid="3dadcdb7-1717-4680-a897-c38643eb6d08"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1- PG prévu]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="30" width="143" height="20" uuid="8e418024-9da7-4612-a984-caf97468d9a0"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1.1 Toutes activités]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="191" width="143" height="20" uuid="5e9d05f9-00a1-4420-8c74-080af09ab16f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1.2 Régulier]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="13" y="50" width="542" height="100" uuid="fe481748-f0f7-4441-85da-b31f78179a8a"/>
+				<subreportParameter name="S3">
+					<subreportParameterExpression><![CDATA[$P{S3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date3">
+					<subreportParameterExpression><![CDATA[$P{date3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S2">
+					<subreportParameterExpression><![CDATA[$P{S2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date2">
+					<subreportParameterExpression><![CDATA[$P{date2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S1">
+					<subreportParameterExpression><![CDATA[$P{S1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date1">
+					<subreportParameterExpression><![CDATA[$P{date1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Rapport suivi saison Page 1_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="13" y="211" width="542" height="100" uuid="d0b51255-9671-4ff6-a939-4b901e28b2a9"/>
+				<subreportParameter name="S3">
+					<subreportParameterExpression><![CDATA[$P{S3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date3">
+					<subreportParameterExpression><![CDATA[$P{date3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S2">
+					<subreportParameterExpression><![CDATA[$P{S2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date2">
+					<subreportParameterExpression><![CDATA[$P{date2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S1">
+					<subreportParameterExpression><![CDATA[$P{S1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date1">
+					<subreportParameterExpression><![CDATA[$P{date1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Rapport suivi saison Page 1_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="13" y="345" width="143" height="20" uuid="446061aa-c182-4e4e-a1ab-b438036cdfab"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1.3 Charter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="495" width="143" height="20" uuid="5bd130fc-4d37-42d3-ba73-de722ab62105"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1.4 Supplémentaire]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="13" y="365" width="542" height="100" uuid="3c8efe78-faff-4747-8247-f4f6bd2db508"/>
+				<subreportParameter name="S3">
+					<subreportParameterExpression><![CDATA[$P{S3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date3">
+					<subreportParameterExpression><![CDATA[$P{date3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S2">
+					<subreportParameterExpression><![CDATA[$P{S2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date2">
+					<subreportParameterExpression><![CDATA[$P{date2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S1">
+					<subreportParameterExpression><![CDATA[$P{S1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date1">
+					<subreportParameterExpression><![CDATA[$P{date1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Rapport suivi saison Page 1_subreport3.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="13" y="515" width="542" height="134" uuid="6a1ec97f-0046-41b0-8bdc-3507250f904e"/>
+				<subreportParameter name="S3">
+					<subreportParameterExpression><![CDATA[$P{S3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date3">
+					<subreportParameterExpression><![CDATA[$P{date3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S2">
+					<subreportParameterExpression><![CDATA[$P{S2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date2">
+					<subreportParameterExpression><![CDATA[$P{date2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="S1">
+					<subreportParameterExpression><![CDATA[$P{S1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="date1">
+					<subreportParameterExpression><![CDATA[$P{date1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Rapport suivi saison Page 1_subreport4.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20"/>
+	</pageFooter>
+</jasperReport>

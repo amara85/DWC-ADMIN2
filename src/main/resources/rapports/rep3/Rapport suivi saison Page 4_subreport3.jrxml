@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rapport suivi saison Page 3_subreport1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="35e33d16-723d-4682-9340-1cfe9ef5c5c3">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="S1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT activ ,
+  SUM(pax) AS pax
+FROM
+  (SELECT
+    CASE
+      WHEN (activs LIKE 'REG'
+      OR activs LIKE 'SUP' OR activs LIKE 'PEL')
+      THEN 'REG+SUP'
+      WHEN activs LIKE 'CHR'
+      THEN 'CHR'
+    END AS activ,
+    pax
+  FROM
+    (SELECT fv.activs,
+      SUM(fv.PAX) AS pax
+    FROM FAIT_VOL fv
+    INNER JOIN DIM_LEG dl
+    ON fv.ID_LEG = dl.ID
+    INNER JOIN DIM_TEMPS dt
+    ON fv.ID_TEMPS = dt.id
+    INNER JOIN DIM_AVION da
+    ON fv.ID_AVION = da.id
+    WHERE dt.SAISON LIKE $P{S3}
+    AND dt.datev <= TO_DATE($P{date3}, 'DD-MM-YY')
+    AND (fv.ID_TYPE_VOL = 2
+    OR fv.ID_TYPE_VOL   = 3)
+    AND (fv.activs LIKE 'REG'
+    OR fv.activs LIKE 'SUP'
+    OR fv.activs LIKE 'PEL'
+    OR fv.activs LIKE 'CHR')
+    GROUP BY fv.activs
+    )
+  )
+GROUP BY activ]]>
+	</queryString>
+	<field name="ACTIV" class="java.lang.String"/>
+	<field name="PAX" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="153">
+			<pie3DChart>
+				<chart>
+					<reportElement x="0" y="0" width="215" height="153" uuid="72abad26-5dc7-4bf6-b27d-13a9d815ad05"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{ACTIV}]]></keyExpression>
+					<valueExpression><![CDATA[$F{PAX}]]></valueExpression>
+				</pieDataset>
+				<pie3DPlot isShowLabels="true" labelFormat="{1} | {2}">
+					<plot>
+						<seriesColor seriesOrder="0" color="#4282D0"/>
+						<seriesColor seriesOrder="1" color="#C33D3A"/>
+						<seriesColor seriesOrder="2" color="#92B745"/>
+						<seriesColor seriesOrder="3" color="#8460B1"/>
+						<seriesColor seriesOrder="4" color="#00CCCC"/>
+					</plot>
+					<itemLabel>
+						<font size="8"/>
+					</itemLabel>
+				</pie3DPlot>
+			</pie3DChart>
+		</band>
+	</summary>
+</jasperReport>

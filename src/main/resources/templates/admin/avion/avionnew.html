@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org" layout:decorator="layouts/layout3">
+	
+<head>
+  <title>Ajouter nouveau avion</title>
+</head>
+
+<body>
+
+	<th:block layout:fragment="script">
+	    <script type="text/javascript" th:src="@{/js/form1.js}"></script>
+		<script type="text/javascript" th:src="@{/otherlibs/jquery-ui/jquery-ui.min.js}"></script>
+	</th:block>
+	<th:block layout:fragment="style">
+		<link href="../static/css/style-1.css" th:href="@{/css/style-1.css}"
+			rel="stylesheet" media="screen" />
+		<link href="../static/css/style-forms.css" th:href="@{/css/style-forms.css}" rel="stylesheet" media="screen" />
+		<link href="../static/otherlibs/jquery-ui/jquery-ui.min.css" th:href="@{/otherlibs/jquery-ui/jquery-ui.min.css}" rel="stylesheet" media="screen" />
+	</th:block>
+
+	<div layout:fragment="content">
+
+		<div class="container">
+
+			<h3 class="titre1">Détails d'un avion</h3>
+
+			<div>
+				<form class="form-horizontal" th:object="${avion}"
+					th:action="@{/admin/avion}" method="post">
+					<div class="form-group hidden">
+						<label class="col-sm-2   label1">ID:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" th:field="*{id}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('id')}"
+								th:errors="*{id}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">Immatriculation:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" th:field="*{imm}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('imm')}"
+								th:errors="*{imm}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">Nom airline:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" th:field="*{nowner}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('nowner')}" th:errors="*{nowner}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">Code airline:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" th:field="*{cowner}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('cowner')}" th:errors="*{cowner}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">Appareil:</label>
+						<div class="col-sm-5">
+							<select th:field="*{appareil}" class="form-control">
+								<option th:each="a : ${allAppreils}" th:value="${a.code}"
+									th:text="${a.code}"
+									th:selected="(${a.code} == *{appareil})"></option>
+							</select>
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('appareil')}" th:errors="*{appareil}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">Date d'entée en service:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control datepicker" th:field="*{dentree}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('dentree')}" th:errors="*{dentree}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2   label1">Date de sortie de service:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control datepicker" th:field="*{dsortie}" />
+						</div>
+						<div class="col-sm-5">
+							<p th:if="${#fields.hasErrors('dsortie')}" th:errors="*{dsortie}"></p>
+						</div>
+					</div>
+					<div class="row">	
+						
+						<div class="col-sm-6">
+						</div>
+					
+						<div class="col-sm-1">
+							<button type="submit" class="btn btn-primary pull-right">Enregistrer</button>
+						</div>
+						<div class="col-sm-5"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+
+

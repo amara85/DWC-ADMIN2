@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org" layout:decorator="layouts/layout3">
+
+<head>
+  <title>Liste des types appareils</title>
+</head>
+
+<body>
+
+	<th:block layout:fragment="script">
+	</th:block>
+	<th:block layout:fragment="style">
+		<link href="../static/css/style-1.css" th:href="@{/css/style-1.css}"
+			rel="stylesheet" media="screen" />
+	</th:block>
+
+	<div layout:fragment="content">
+		<div class="container">
+
+			<div th:if="${not #lists.isEmpty(appareils)}">
+				<h3 class="titre1">Liste des appareils</h3>
+
+				<table class="table table-striped">
+					<tr>
+						<th>Code</th>
+						<th>TU/AFF</th>
+						<th>Famille</th>
+						<th>Type</th>
+						<th>Description</th>
+						<th>SO</th>
+						<th>Ordre</th>
+						<th>Edit</th>
+					</tr>
+					<tr th:each="appareil : ${appareils}">
+						<td th:text="${appareil.code}">Code</td>
+						<td th:text="${appareil.tuaff}">TUAFF</td>
+						<td th:text="${appareil.famille}">Famille</td>
+						<td th:text="${appareil.type}">Type</td>
+						<td th:text="${appareil.description}">Description</td>
+						<td th:text="${appareil.so}">SO</td>
+						<td th:text="${appareil.ordre}">Ordre</td>
+						<td><a
+							th:href="${'/admin/appareil/edit/' + appareil.code}">Edit</a></td>
+					</tr>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

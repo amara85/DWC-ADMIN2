@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rapport suivi saison Page 1_subreport1" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="23a540e7-d3a4-46ae-a1ed-0f826836d00e">
+	<property name="ireport.zoom" value="1.3660269107301444"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="S1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="S3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Administrateur\\Desktop\\Rapports Ireport\\Rapports dev\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT MARCHE,
+  SO_REL_S14,
+  SO_REL_S15,
+  CASE
+    WHEN DIF_SO_REL IS NULL
+    THEN NULL
+    ELSE CONCAT(DIF_SO_REL,'%')
+  END AS DIF_SO_REL,
+  PAX_REL_S14,
+  PAX_REL_S15,
+  CASE
+    WHEN DIF_PAX_REL IS NULL
+    THEN NULL
+    ELSE CONCAT(DIF_PAX_REL,'%')
+  END AS DIF_PAX_REL
+FROM
+  ( SELECT DISTINCT REGION, MARCHE,
+    ROUND(SUM(ROT_REL_S14),0)                                                                                AS ROT_REL_S14,
+    SUM(SO_REL_S14)                                                                                          AS SO_REL_S14,
+    SUM(PAX_REL_S14)                                                                                         AS PAX_REL_S14,
+    ROUND(SUM(ROT_REL_S15),0)                                                                                AS ROT_REL_S15,
+    SUM(SO_REL_S15)                                                                                          AS SO_REL_S15,
+    SUM(PAX_REL_S15)                                                                                         AS PAX_REL_S15,
+    ROUND(100 * (ROUND(SUM(ROT_REL_S15),0)-ROUND(SUM(ROT_REL_S14),0))/NULLIF(ROUND(SUM(ROT_REL_S14),0),0),0) AS DIF_ROT_REL,
+    ROUND(100 * (ROUND(SUM(SO_REL_S15),0)-ROUND(SUM(SO_REL_S14),0))/NULLIF(ROUND(SUM(SO_REL_S14),0),0),0)    AS DIF_SO_REL,
+    ROUND(100 * (ROUND(SUM(PAX_REL_S15),0)-ROUND(SUM(PAX_REL_S14),0))/NULLIF(ROUND(SUM(PAX_REL_S14),0),0),0) AS DIF_PAX_REL
+  FROM
+    (SELECT REGION,
+      PAYS AS MARCHE,
+      ROT * S14  AS ROT_REL_S14,
+      SO  * S14  AS SO_REL_S14,
+      PAX * S14  AS PAX_REL_S14,
+      ROT * S15  AS ROT_REL_S15,
+      SO  * S15  AS SO_REL_S15,
+      PAX * S15  AS PAX_REL_S15
+    FROM
+      (SELECT dt.SAISON,
+        dv.SOUS_TYPE,
+        dl.REG as REGION,
+        dl.pays AS PAYS,
+        fv.ROT,
+        fv.so,
+        fv.pax,
+        CASE
+          WHEN dt.saison LIKE $P{S2}
+          THEN 1
+          ELSE 0
+        END AS S14,
+        CASE
+          WHEN dt.saison LIKE $P{S3}
+          THEN 1
+          ELSE 0
+        END AS S15
+      FROM FAIT_VOL fv
+      INNER JOIN DIM_TYPE_VOL dv
+      ON fv.ID_TYPE_VOL = dv.id
+      INNER JOIN DIM_TEMPS dt
+      ON fv.ID_TEMPS = dt.id
+      INNER JOIN DIM_LEG dl
+      ON fv.id_leg = dl.id
+      WHERE ((dt.saison LIKE $P{S2}
+      AND dt.datev <= TO_DATE($P{date2}, 'DD-MM-YY'))
+      OR (dt.saison LIKE $P{S3}
+      AND dt.datev <= TO_DATE($P{date3}, 'DD-MM-YY')))
+      AND (dv.TYPE LIKE 'Réalisés')
+      AND fv.ACTIVS LIKE 'CHR'
+      AND dl.pays NOT LIKE 'Tunisia'
+      AND dl.pays NOT LIKE 'AUCUN'
+      )
+    )
+  GROUP BY REGION,MARCHE
+order by REGION, PAX_REL_S15 desc
+  )
+UNION ALL
+SELECT 'Total',
+  SO_REL_S14,
+  SO_REL_S15,
+  CASE
+    WHEN DIF_SO_REL IS NULL
+    THEN NULL
+    ELSE CONCAT(DIF_SO_REL,'%')
+  END AS DIF_SO_REL,
+  PAX_REL_S14,
+  PAX_REL_S15,
+  CASE
+    WHEN DIF_PAX_REL IS NULL
+    THEN NULL
+    ELSE CONCAT(DIF_PAX_REL,'%')
+  END AS DIF_PAX_REL
+FROM
+  ( SELECT
+    ROUND(SUM(ROT_REL_S14),0)                                                                                AS ROT_REL_S14,
+    SUM(SO_REL_S14)                                                                                          AS SO_REL_S14,
+    SUM(PAX_REL_S14)                                                                                         AS PAX_REL_S14,
+    ROUND(SUM(ROT_REL_S15),0)                                                                                AS ROT_REL_S15,
+    SUM(SO_REL_S15)                                                                                          AS SO_REL_S15,
+    SUM(PAX_REL_S15)                                                                                         AS PAX_REL_S15,
+    ROUND(100 * (ROUND(SUM(ROT_REL_S15),0)-ROUND(SUM(ROT_REL_S14),0))/NULLIF(ROUND(SUM(ROT_REL_S14),0),0),0) AS DIF_ROT_REL,
+    ROUND(100 * (ROUND(SUM(SO_REL_S15),0)-ROUND(SUM(SO_REL_S14),0))/NULLIF(ROUND(SUM(SO_REL_S14),0),0),0)    AS DIF_SO_REL,
+    ROUND(100 * (ROUND(SUM(PAX_REL_S15),0)-ROUND(SUM(PAX_REL_S14),0))/NULLIF(ROUND(SUM(PAX_REL_S14),0),0),0) AS DIF_PAX_REL
+  FROM
+    (SELECT REGION,
+      PAYS AS MARCHE,
+      ROT * S14  AS ROT_REL_S14,
+      SO  * S14  AS SO_REL_S14,
+      PAX * S14  AS PAX_REL_S14,
+      ROT * S15  AS ROT_REL_S15,
+      SO  * S15  AS SO_REL_S15,
+      PAX * S15  AS PAX_REL_S15
+    FROM
+      (SELECT dt.SAISON,
+        dv.SOUS_TYPE,
+        dl.REG as REGION,
+        dl.pays AS PAYS,
+        fv.ROT,
+        fv.so,
+        fv.pax,
+        CASE
+          WHEN dt.saison LIKE $P{S2}
+          THEN 1
+          ELSE 0
+        END AS S14,
+        CASE
+          WHEN dt.saison LIKE $P{S3}
+          THEN 1
+          ELSE 0
+        END AS S15
+      FROM FAIT_VOL fv
+      INNER JOIN DIM_TYPE_VOL dv
+      ON fv.ID_TYPE_VOL = dv.id
+      INNER JOIN DIM_TEMPS dt
+      ON fv.ID_TEMPS = dt.id
+      INNER JOIN DIM_LEG dl
+      ON fv.id_leg = dl.id
+      WHERE ((dt.saison LIKE $P{S2}
+      AND dt.datev <= TO_DATE($P{date2}, 'DD-MM-YY'))
+      OR (dt.saison LIKE $P{S3}
+      AND dt.datev <= TO_DATE($P{date3}, 'DD-MM-YY')))
+      AND (dv.TYPE LIKE 'Réalisés')
+      AND fv.ACTIVS LIKE 'CHR'
+      AND dl.pays NOT LIKE 'Tunisia'
+      AND dl.pays NOT LIKE 'AUCUN'
+      )
+    )
+  )]]>
+	</queryString>
+	<field name="MARCHE" class="java.lang.String"/>
+	<field name="SO_REL_S14" class="java.math.BigDecimal"/>
+	<field name="SO_REL_S15" class="java.math.BigDecimal"/>
+	<field name="DIF_SO_REL" class="java.lang.String"/>
+	<field name="PAX_REL_S14" class="java.math.BigDecimal"/>
+	<field name="PAX_REL_S15" class="java.math.BigDecimal"/>
+	<field name="DIF_PAX_REL" class="java.lang.String"/>
+	<columnHeader>
+		<band height="50">
+			<staticText>
+				<reportElement mode="Opaque" x="20" y="8" width="113" height="42" forecolor="#000000" backcolor="#0099CC" uuid="f4c5f57e-4142-4770-8450-1adecf036a1b"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Marché]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="132" y="8" width="191" height="23" forecolor="#000000" backcolor="#0099CC" uuid="ec226005-4767-45aa-805b-141f18e3e4c2"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[SO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="323" y="8" width="184" height="23" backcolor="#0099CC" uuid="2e852ff9-f953-4ddc-917b-cd09ebd8b9a7"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAX]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="266" y="31" width="57" height="19" forecolor="#000000" backcolor="#0099CC" uuid="79cfd602-3438-4f34-b927-2e9f79f29692"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[VAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="454" y="31" width="53" height="19" forecolor="#000000" backcolor="#0099CC" uuid="656e6983-ae98-49ac-a293-044d218b4cdc"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[VAR]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="391" y="31" width="63" height="19" forecolor="#000000" backcolor="#0099CC" uuid="0b08d008-4cec-431d-b6e0-5c4c66bd987e"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{S3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="323" y="31" width="68" height="19" forecolor="#000000" backcolor="#0099CC" uuid="8fc312e9-04ba-4252-800e-cdbb0169348f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{S2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="199" y="31" width="67" height="19" forecolor="#000000" backcolor="#0099CC" uuid="62abc50d-74b4-4afe-a870-0c14d83f512c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{S3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="132" y="31" width="67" height="19" forecolor="#000000" backcolor="#0099CC" uuid="49df4ff0-fddc-4147-a650-69e61993d67b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{S2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="0" width="112" height="20" uuid="ba69de83-7d16-44ed-b564-a78b0031c516"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{MARCHE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="132" y="0" width="67" height="20" uuid="90170366-0bc1-40c7-a5fc-90b0dbbfc035"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{SO_REL_S14}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="199" y="0" width="67" height="20" uuid="2c48c896-cbe1-49fc-972a-d76d763831e3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{SO_REL_S15}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="266" y="0" width="57" height="20" uuid="f11b2252-8fd4-42fa-a09d-c9c5d7d73146"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DIF_SO_REL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="323" y="0" width="68" height="20" uuid="e57f526d-3f42-459e-b7f2-01df65b30d48"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PAX_REL_S14}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="391" y="0" width="63" height="20" uuid="ba366105-54e3-409f-a0b2-0a3d8871f286"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PAX_REL_S15}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="454" y="0" width="53" height="20" uuid="865a7936-13ad-4b06-a078-81100e40f61d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DIF_PAX_REL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
